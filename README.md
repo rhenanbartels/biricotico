@@ -1,9 +1,13 @@
-# My custom web framework
+# Biricotico: a python web framework 🍻
 
 Creates a light web framework and a wsgi server
 
-# Running
-
+# Installing dependencies
 ```
-python wsgi_server.py
+pip install -r requirements.txt
+```
+
+# Running
+```
+gunicorn biricotico.app:app
 ```
