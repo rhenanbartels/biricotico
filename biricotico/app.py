@@ -20,3 +20,13 @@ def home(request, response):
 @app.tap('/about')
 def about(request, response):
     response.text = 'Hello from the ABOUT page'
+
+
+@app.tap('/greetings/{name}')
+def greetings(request, response, name):
+    response.text = f'Hello, {name}'
+
+
+@app.tap('/sum/{int1:d}/{int2:d}')
+def sum(request, response, int1, int2):
+    response.text = str(int1 + int2)
