@@ -35,8 +35,9 @@ class API:
         response.status = 404
         response.text = "Not found."
 
-
     def tap(self, path):
+        assert path not in self.taps, f'Tap route {path} already exists'
+
         def wrapper(handler):
             self.taps[path] = handler
             return handler
