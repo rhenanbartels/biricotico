@@ -7,11 +7,6 @@ from biricotico.api import API
 app = API()
 
 
-@app.tap('/')
-def landing_page(request, response):
-    response.text = 'Welcome!'
-
-
 @app.tap('/home')
 def home(request, response):
     response.text = 'Hello from the HOME page'
@@ -30,3 +25,12 @@ def greetings(request, response, name):
 @app.tap('/sum/{int1:d}/{int2:d}')
 def sum(request, response, int1, int2):
     response.text = str(int1 + int2)
+
+
+@app.tap('/')
+class LandingPage:
+    def get(self, request, response):
+        response.text = 'GET method using CBV'
+
+    def post(self, requst, response):
+        response.text = 'POST method using CBV'
