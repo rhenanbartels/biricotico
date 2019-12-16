@@ -18,6 +18,14 @@ class API:
                 handler(request, response)
                 return response
 
+            self.default_response(response)
+            return response
+
+    def default_response(self, response):
+        response.status = 404
+        response.text = "Not found."
+
+
     def tap(self, path):
         def wrapper(handler):
             self.taps[path] = handler
