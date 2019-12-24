@@ -64,3 +64,15 @@ def test_method_not_allowed(api, client):
 
     with pytest.raises(AttributeError):
         client.get("http://testserver/book")
+
+
+def test_alternative_rout(api, client):
+    expected_response = "Another way to add route"
+
+    def home(req, resp):
+        resp.text = expected_response
+
+    api.add_tap("/home", home)
+
+    assert client.get("http://testserver/home").text == expected_response
+

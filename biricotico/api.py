@@ -15,6 +15,11 @@ class API:
         session.mount(prefix=base_url, adapter=RequestsWSGIAdapter(self))
         return session
 
+    def add_tap(self, tap_path, tap_handler):
+        assert tap_path not in self.taps, f"Route {tap_path} already exists"
+
+        self.taps[tap_path] = tap_handler
+
     def __call__(self, environ, start_response):
         request = Request(environ)
         response = self.handle_request(request)
@@ -54,7 +59,7 @@ class API:
         assert path not in self.taps, f'Tap route {path} already exists'
 
         def wrapper(handler):
-            self.taps[path] = handler
+            self.add_tap(path, handler)
             return handler
 
         return wrapper
