@@ -1,12 +1,19 @@
 import inspect
 
 from parse import parse
+from requests import Session as RequestsSession
 from webob import Request, Response
+from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 
 
 class API:
     def __init__(self):
         self.taps = {}
+
+    def test_session(self, base_url="http://testserver"):
+        session = RequestsSession()
+        session.mount(prefix=base_url, adapter=RequestsWSGIAdapter(self))
+        return session
 
     def __call__(self, environ, start_response):
         request = Request(environ)
