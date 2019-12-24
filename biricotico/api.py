@@ -21,7 +21,6 @@ class API:
 
         return None, None
 
-
     def handle_request(self, request):
         response = Response()
 
