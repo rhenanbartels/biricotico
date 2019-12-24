@@ -33,3 +33,12 @@ def test_get_default_404_response(api, client):
 
     assert resp.status_code == 404
     assert resp.text == "Not found."
+
+
+def test_class_based_view(api, client):
+    @api.tap("/home")
+    class HomeView:
+        def get(self, req, resp):
+            resp.text = "Home"
+
+    assert client.get("http://testserver/home").text == "Home"
