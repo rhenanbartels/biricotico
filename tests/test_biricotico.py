@@ -1,3 +1,6 @@
+import pytest
+
+
 def test_basic_route_adding(api):
     @api.tap("/home")
     def home(req, resp):
@@ -42,3 +45,22 @@ def test_class_based_view(api, client):
             resp.text = "Home"
 
     assert client.get("http://testserver/home").text == "Home"
+
+
+def test_post_method(api, client):
+    @api.tap("/book")
+    class BookView:
+        def post(self, req, resp):
+            resp.text = "Book Added"
+
+    assert client.post("http://testserver/book").text == "Book Added"
+
+
+def test_method_not_allowed(api, client):
+    @api.tap("/book")
+    class BookView:
+        def post(self, req, resp):
+            resp.text = "Book Added"
+
+    with pytest.raises(AttributeError):
+        client.get("http://testserver/book")
