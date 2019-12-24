@@ -1,5 +1,7 @@
 import inspect
+import os
 
+from jinja2 import Environment, FileSystemLoader
 from parse import parse
 from requests import Session as RequestsSession
 from webob import Request, Response
@@ -7,8 +9,15 @@ from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 
 
 class API:
-    def __init__(self):
+    def __init__(self, templates_dir="templates"):
         self.taps = {}
+
+        self.template_env = Environment(
+            loader=FileSystemLoader(os.path.abspath(templates_dir))
+        )
+
+    def template(self, template_name, context=None):
+        return self.template_env.get_template(template_name).render(**context)
 
     def test_session(self, base_url="http://testserver"):
         session = RequestsSession()
