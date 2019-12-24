@@ -18,3 +18,11 @@ def test_biricotico_test_client_can_send_requests(api, client):
 
     assert client.get('http://testserver/hey').text == expected_response
 
+
+def test_parameterized_routes(api, client):
+    @api.tap("/{name}")
+    def hello(req, resp, name):
+        resp.text = f"hello, {name}"
+
+
+    assert client.get("http://testserver/rhenan").text == "hello, rhenan"
